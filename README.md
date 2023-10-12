@@ -1,7 +1,7 @@
 # TM325 Tutorial: Web foundations and the development environment (Overview)
 
 This tutorial is designed to support students working on the first
-parts of Block 1. We will cover the structures behind modern
+parts of Block 1 in TM325. We will cover the structures behind modern
 web applications and the use of the Interactive Development
 Environment (IDE) in developing, deploying and testing a JavaScript
 frontend application.
@@ -129,7 +129,6 @@ product looks something like this:
 
    export default App
 
-   // End of App.tsx
    ```
 
    As you can see, the interface to our app consists of a single
@@ -167,6 +166,8 @@ individual squares into their own components. Create a new file called
 `Square.tsx` in the `src` directory. Copy the contents below into it:
 
 ```
+// Square.tsx
+
 function Square() {
 
     return <button className="square" />;
@@ -180,6 +181,8 @@ called `Row.tsx` in the `src` directory and copy the following
 contents into it:
 
 ```
+// Row.tsx
+
 import Square from './Square';
 
 function Row() {
@@ -201,6 +204,8 @@ components. Finally, we will alter `App.tsx` so that it constructs
 three `Row` components:
 
 ```
+// App.tsx
+
 import './App.css'
 import Row from './Row';
 
@@ -244,12 +249,14 @@ At the top level we define the model then pass a copy of it and the
 *row number* to each row. 
 
 ```
+// App.tsx
+
 import './App.css'
 import Row from './Row';
 
 function App() {
 
-	const [squares, setSquares] = useState(Array(9).fill(null));
+    const [squares, setSquares] = useState(Array(9).fill(null));
 	
     return (
       <>
@@ -292,6 +299,8 @@ export default Row
 Finally, in the `Square` component we display the value.
 
 ```
+// Square.tsx
+
 function Square({value}) {
 
     return <button className="square">
@@ -311,6 +320,8 @@ components. We need an additional piece of state to keep track of
 whether the next turn is a nought or a cross, and we call it `xIsNext`. 
 
 ```
+// App.tsx
+
 import { useState } from 'react';
 import './App.css';
 import Row from './Row';
@@ -352,6 +363,8 @@ export default App
 In the `Row` component we pass an anonymous function to each square. 
 
 ```
+// Row.tsx
+
 import Square from './Square';
 
 function Row({rowNum, squares, handleClick}) {
@@ -372,6 +385,8 @@ function Row({rowNum, squares, handleClick}) {
 And in the `Square` component we just set the `onClick` handler.
 
 ```
+// Square.tsx
+
 function Square({value, handleClick}) {
 
     return <button className="square" 
@@ -398,6 +413,8 @@ handler so that it won't make any change to the interface after the
 game has been won. The final version of the `App` component is below.
 
 ```
+// App.tsx
+
 import { useState } from 'react';
 import './App.css';
 import Row from './Row';
@@ -459,3 +476,5 @@ function App() {
 export default App
 
 ```
+
+That's it!
