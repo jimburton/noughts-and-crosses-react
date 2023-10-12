@@ -1,28 +1,18 @@
 import './App.css'
-
-function Square() {
-  return <button className="square">1</button>;
-}
+import Row from './Row';
 
 function App() {
 
+  const ofThree = [0,1,2]
+
     return (
       <>
-        <div className="board-row">
-          <Square />
-          <Square />
-          <Square />
-        </div>
-        <div className="board-row">
-          <Square />  
-          <Square />
-          <Square />
-        </div>
-        <div className="board-row">
-          <Square />
-          <Square />
-          <Square />
-        </div>
+        {
+          ofThree.map((i) => 
+          (
+            <Row />
+          ))
+        }
       </>
     )
 }
