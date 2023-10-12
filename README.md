@@ -283,15 +283,15 @@ import Square from './Square';
 
 function Row({rowNum, squares}) {
     
-	const inc = rowNum*3;
-	return (
-      <>
+  const inc = rowNum*3;
+  return (
+    <>
       <div className="board-row">
         { [0,1,2].map((i) => <Square value={squares[inc*i]} />) }
       </div>
-      </>
-    )
-  }
+    </>
+  )
+}
 
 export default Row
 ```
@@ -303,9 +303,9 @@ Finally, in the `Square` component we display the value.
 
 function Square({value}) {
 
-    return <button className="square">
-              {value}
-           </button>;
+  return <button className="square">
+           {value}
+         </button>;
 }
 
 export default Square
@@ -350,7 +350,7 @@ function App() {
       <>
         <div className="status">{status}</div>
         {[0,1,2].map((m) => { return <Row mult={m} 
-		                                  squares={squares}
+                                          squares={squares}
                                           handleClick={handleClick} /> })}
       </>
     )
