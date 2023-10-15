@@ -13,7 +13,7 @@ designed to work on your own machine. If you wanted to do that you
 could make the necessary adapatations by altering the `vite` config
 file. See the practical exercise in Block 1 Part 4 for more details.
 
-This tutorial adapts the standard React tutorial here:
+This tutorial adapts a standard React tutorial,
 https://react.dev/learn/tutorial-tic-tac-toe, making a few changes to
 bring the material into line with the way we are structuring and
 developing React apps on TM325. Note that the original tutorial
@@ -28,8 +28,8 @@ product looks something like this:
 ## Setup
 
 1. Download a zip file of this repository from GitHub at
-   https://github.com/jimburton/noughts-and-crosses. (Alternatively,
-   clone the repository and make a zip file from the parent folder.)
+   https://github.com/jimburton/noughts-and-crosses-react. Alternatively,
+   clone the repository and make a zip file from the parent folder.
 
 2. Upload the zip file to the VCE. The button for doing this is in the
    upper left area of the VCE. 
@@ -63,7 +63,7 @@ product looks something like this:
    ou@jupyter-3646:~$ npm install -D tailwindcss postcss autoprefixer
    ```
    
-   To configure the app on the VCE you need to edit the file
+   To configure the app to work on the VCE you need to edit the file
    `vite.config.ts` by replacing USERID with your own user id. You can find
    your user id by looking at the entry prompt on a terminal. As you
    can see below, mine is 3646.
@@ -132,7 +132,9 @@ product looks something like this:
    ```
 
    As you can see, the interface to our app consists of a single
-   button. 
+   button. Throughout the tutorial you will be making incremental
+   changes to this file and adding others. The final version of the
+   components for this app are in the `etc` directory. 
    
 ## Constructing a board
 
@@ -142,6 +144,9 @@ of loops. Copy the code below into the `App` function, replacing the
 existing call to `return` and leaving the rest of the file unchanged.
 
 ```
+// in App.tsx
+// ...
+
     return (
       <>
         {
@@ -156,14 +161,18 @@ existing call to `return` and leaving the rest of the file unchanged.
     )
 ```
 
-Now we have a grid we can work with. What we really want is to show a
-blank cell to begin with, then an **X** or a **O** depending on whose
-turn it is. What's more, after the first click on a square, subsequent
-clicks should have no effect.
+Check the result in the browser -- you should see a 3x3 grid of **X**
+characters. What we really want is to show a blank cell to begin with,
+then an **X** or a **O** depending on whose turn it is. What's more,
+after the first click on a square, subsequent clicks should have no
+effect.
 
-We will start by separating the code for constructing rows and
-individual squares into their own components. Create a new file called
-`Square.tsx` in the `src` directory. Copy the contents below into it:
+### Breaking down the problem
+
+We will clean things up a bit by separating the code for constructing
+rows and individual squares into their own components. Create a new
+file called `Square.tsx` in the `src` directory. Copy the contents
+below into it:
 
 ```
 // Square.tsx
@@ -186,17 +195,16 @@ contents into it:
 import Square from './Square';
 
 function Row() {
-    const m = mult*3;
-    return (
-      <>
+  return (
+    <>
       <div className="board-row">
-		  {[0,1,2].map((i) => <Square /> ) }
+        {[0,1,2].map((i) => <Square /> ) }
       </div>
-      </>
-    )
-  }
+    </>
+  )
+}
 
-  export default Row
+export default Row
 ```
 
 The `Row` component constructs a `div` containing three `Square`
@@ -211,46 +219,48 @@ import Row from './Row';
 
 function App() {
 
-  const ofThree = [0,1,2]
-
-    return (
-      <>
-        {
-          [0, 1, 2].map((i) => 
+  return (
+    <>
+      {
+        [0, 1, 2].map((i) => 
           (
             <Row />
           ))
-        }
-      </>
-    )
+      }
+    </>
+  )
 }
 
 export default App
 ```
 
-You should now see a blank 3x3 grid. In the next stage we use
-*properties* and *event handlers* to implement the functionality. 
+You should now see a blank grid in the browser. In the next stage we
+use *properties* and *event handlers* to implement the functionality
+of the game.
 
 ## Responding to clicks on the board
 
 We need to pass information down from the top level (the `App`
-component) to the components below. We do this by adding *properties*
-to the components. These are specified as parameters to the function
-that defines the component, then we pass actual values when writing
-the tags that instantiate a component. 
+component) to the components below (`Rpw`s and `Square`s). We do this
+by adding *properties* to the components. These are specified as
+parameters to the function that defines the component, then we pass
+actual values when writing the tags that instantiate a component.
 
-The model for our grid will be an array of 9 elements, defined at the
-top level. Each element will initially be `null` then, as the game is
-played, can be changed to a nought or a cross. The great thing about
-React is that any changes to this model will trigger an update to the
-UI, so the change will be reflected on-screen.
+React makes it easy to seperate the UI controls from the data they
+display, the *model*. The model for our grid will be an array of 9
+elements, defined at the top level. Each element will initially be
+`null` then, as the game is played, can be changed to a nought or a
+cross. The great thing about React is that any changes to this model
+will trigger an update to the UI, so the change will be reflected
+on-screen.
 
-At the top level we define the model then pass a copy of it and the
-*row number* to each row. 
+At the top level we define the model as a piece of *state*, then pass
+a copy of it and the *row number* to each row.
 
 ```
 // App.tsx
 
+import { useState } from 'react';
 import './App.css'
 import Row from './Row';
 
@@ -287,7 +297,7 @@ function Row({rowNum, squares}) {
   return (
     <>
       <div className="board-row">
-        { [0,1,2].map((i) => <Square value={squares[inc*i]} />) }
+        { [0,1,2].map((i) => <Square value={squares[inc+i]} />) }
       </div>
     </>
   )
@@ -314,7 +324,7 @@ export default Square
 
 We've now got the plumbing in place for reflecting changes to the
 underlying data. We just need to create an event handler that will
-respond to user interaction to make the changes. As with the data, we
+respond to user interaction to make those changes. As with the data, we
 define the handler at the top level and pass references to nested
 components. We need an additional piece of state to keep track of
 whether the next turn is a nought or a cross, and we call it `xIsNext`. 
@@ -516,11 +526,14 @@ Unique 'key' Prop". Note that the stack trace with each error includes
 links to the source code, highlighting the line that caused the
 error. When creating a list in the UI from an array with JSX or TSX,
 you should add a `key` prop to each child and to any of its
-children. For instance, `<li key="uniqueId1" >Item1</li>`. The keys
-don't need to be globally unique, just unique among its sibling
-elements. Use the debugging information to find the source of the
-problems and fix them by adding the props to the `Row` and `Square`
-elements that were produced from an array. 
+children. For instance, `<li key="uniqueId1" >Item1</li>`. In two
+places in the code, components were constructed after mapping over an
+array but the `key` props weren't added. The keys don't need to be
+globally unique, just unique among its sibling elements. 
+
+Use the debugging information to find the source of the problems and
+fix them by adding the props to the components that were produced from
+an array.
 
 The Dev Tools are a powerful suite of tools for analysing and working
 on your web apps, and it's worth getting to know them. You can find
@@ -545,12 +558,13 @@ techniques of automated testing are equally essential, especially the
 creation and maintainance of a full suite of unit tests that can be
 run at the click of button. This enables us to test individual
 components, validate individual features and alert us to any
-regressions (things which have stopped working following refactoring
-or the addition of new code. Separating the business logic from the UI
-and creating "mock" objects to stand in for external services that we
-don't want to test (e.g. a database or backend service that our app
-uses) can be a complex process and is beyond the scope of this
-tutorial. 
+regressions (bugs which have appeared following refactoring or the
+addition of new code). 
+
+Separating the business logic from the UI and creating "mock" objects
+to stand in for external services that we don't want to test (e.g. a
+database or backend service that our app uses) can be a subtle
+process and is beyond the scope of this tutorial.
 
 A good place to start exploring this is with
 [jest](https://jestjs.io/), a fully-featured Javascript testing
