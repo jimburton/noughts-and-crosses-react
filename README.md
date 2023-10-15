@@ -477,4 +477,89 @@ export default App
 
 ```
 
-That's it!
+# Testing 
+
+## Testing manually with the Dev Tools
+
+When thinking about testing our work, our first and most valuable
+resource will be the Developer Tools built in to the browser. To get
+access to these we need to open the Local Browser in its own tab,
+using the toolbar icon to the right of the Path and Port controls.
+
+![Launching the Local Browser in its own tab](public/launch.png)
+
+Then we can access the Dev Tools through the browser menu or with the
+standard Chrome shortcut `Ctrl-Shift-I`. 
+
+![Accessing the Dev Tools in the VCE](public/devtools.png)
+
+The Dev Tools include:
+
++ an incremental debugger, allowing you to insert breakpoints in the
+  code, step through it line by line and inspect any object and its
+  value,
++ the Javascript console, allowing us to evaluate arbitrary
+expressions, 
++ the Network tab showing all scripts and resources loaded by this
+page, 
++ a profiler, allowing you to analyses the performance of your app,
+  identifying the "hot spots", or sections of code that take up most
+  CPU time,
++ the Element selector which allows you to inspect any DOM element on
+the page, 
++ any errors that may have been found in the code, and
++ accessibility warnings and other suggestions for improving the code.
+
+Accessing the Dev Tools should highlight two errors in the code, each
+with the same message: "Warning: Each Child in a List Should Have a
+Unique 'key' Prop". Note that the stack trace with each error includes
+links to the source code, highlighting the line that caused the
+error. When creating a list in the UI from an array with JSX or TSX,
+you should add a `key` prop to each child and to any of its
+children. For instance, `<li key="uniqueId1" >Item1</li>`. The keys
+don't need to be globally unique, just unique among its sibling
+elements. Use the debugging information to find the source of the
+problems and fix them by adding the props to the `Row` and `Square`
+elements that were produced from an array. 
+
+The Dev Tools are a powerful suite of tools for analysing and working
+on your web apps, and it's worth getting to know them. You can find
+full documentation here: https://developer.chrome.com/docs/devtools.
+
+## React Developer Tools
+
+When building web apps with a framework such as React, what actually
+gets delivered to the browser can be hard to navigate and make sense
+of. The [React Developer
+Tools](https://react.dev/learn/react-developer-tools) are browser
+plugins that extend the Dev Tools with an understanding of React
+components, props and hooks, and with the architecture of React apps.
+
+![The React Dev Tools](public/react-tools.png)
+
+## Automated testing
+
+The various dev tools are most useful for manually hunting down bugs
+and assisting in integration or end-to-end testing. All of the usual
+techniques of automated testing are equally essential, especially the
+creation and maintainance of a full suite of unit tests that can be
+run at the click of button. This enables us to test individual
+components, validate individual features and alert us to any
+regressions (things which have stopped working following refactoring
+or the addition of new code. Separating the business logic from the UI
+and creating "mock" objects to stand in for external services that we
+don't want to test (e.g. a database or backend service that our app
+uses) can be a complex process and is beyond the scope of this
+tutorial. 
+
+A good place to start exploring this is with
+[jest](https://jestjs.io/), a fully-featured Javascript testing
+framework that has support for React.
+
+# Further reading
+
+That's it! If you want to extend the game, have a think about the
+situation in which there is no winner. Also, the React tutorial linked
+to at the beginning adds undo/redo functionality to this game, which
+is an interesting demonstration of the power of binding data to a
+model in React.
