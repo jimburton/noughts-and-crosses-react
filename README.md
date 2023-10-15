@@ -133,8 +133,9 @@ product looks something like this:
 
    As you can see, the interface to our app consists of a single
    button. Throughout the tutorial you will be making incremental
-   changes to this file and adding others. The final version of the
-   components for this app are in the `etc` directory. 
+   changes to this file and adding others. If you want to jump ahead
+   and see the final versions of the components for this app, you can
+   find them in the `etc` directory.
    
 ## Constructing a board
 
