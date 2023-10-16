@@ -421,6 +421,8 @@ and a placeholder div above the grid to contain feedback about the
 progress of the game. We also need to make a change to the click
 handler so that it won't make any change to the interface after the
 game has been won. The final version of the `App` component is below.
+Note that the `handleClick` function now returns early if the square
+has been clicked on before *or* the game is over.
 
 ```
 // App.tsx
@@ -462,7 +464,7 @@ function App() {
   }
 
   function handleClick(i: number) {
-    if (squares[i]) {
+    if (squares[i] || calculateWinner(squares)) {
       return;
     }
     const nextSquares = squares.slice();
@@ -478,14 +480,16 @@ function App() {
     return (
       <>
         <div className="status">{status}</div>
-        {[0,1,2].map((m) => { return <Row mult={m} squares={squares} onRowClick={handleClick}/> })}
+        {[0,1,2].map((m) => { return <Row rowNum={m} squares={squares} handleClick={handleClick}/> })}
       </>
     )
 }
 
 export default App
-
 ```
+
+We don't need to make any changes to our other components, so the game
+is done.
 
 # Debugging and testing 
 

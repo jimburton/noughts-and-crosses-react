@@ -1,3 +1,5 @@
+// App.tsx
+
 import { useState } from 'react';
 import './App.css';
 import Row from './Row';
@@ -51,7 +53,7 @@ function App() {
     return (
       <>
         <div className="status">{status}</div>
-        {[0,1,2].map((m) => { return <Row rowNum={m} squares={squares} onRowClick={handleClick}/> })}
+        {[0,1,2].map((m) => { return <Row rowNum={m} squares={squares} handleClick={handleClick}/> })}
       </>
     )
 }
