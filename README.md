@@ -274,7 +274,7 @@ function App() {
         {
           [0, 1, 2].map((i) => 
           (
-            <Row rowNum={i} square={squares.slice()} />
+            <Row rowNum={i} squares={squares.slice()} />
           ))
         }
       </>
