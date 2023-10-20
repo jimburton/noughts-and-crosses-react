@@ -487,7 +487,7 @@ export default App
 
 ```
 
-# Testing 
+# Debugging and testing 
 
 ## Testing manually with the Dev Tools
 
