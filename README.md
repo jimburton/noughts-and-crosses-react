@@ -344,9 +344,9 @@ function App() {
 
   function handleClick(i: number) {
     // if this square has already been set, return early
-	if (squares[i]) {
-	  return;
-	}
+    if (squares[i]) {
+      return;
+    }
     const nextSquares = squares.slice();
     if (xIsNext) {
       nextSquares[i] = "X";
@@ -359,7 +359,6 @@ function App() {
 
     return (
       <>
-        <div className="status">{status}</div>
         {[0,1,2].map((m) => { return <Row mult={m} 
                                           squares={squares}
                                           handleClick={handleClick} /> })}
