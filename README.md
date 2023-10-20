@@ -359,7 +359,7 @@ function App() {
 
     return (
       <>
-        {[0,1,2].map((m) => { return <Row mult={m} 
+        {[0,1,2].map((m) => { return <Row rowNum={m} 
                                           squares={squares}
                                           handleClick={handleClick} /> })}
       </>
